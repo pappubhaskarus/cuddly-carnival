@@ -7,7 +7,7 @@ pipeline {
         httpResponse = ''
         workpath = 'apps/frontend/admin/admin-app'
         dockerComposePath = 'assets/docker'
-        appName = "admin-app"
+        appName = "admin-app-${BUILD_NUMBER}" 
     }
     stages {
         stage('Clone Repo') {
