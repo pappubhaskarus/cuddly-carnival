@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        appUrl = 'http://46.28.44.125:8082/api/health'
+        appUrl = 'http://46.28.44.125:7001'
         httpStatus = ''
         httpResponse = ''
         workpath = 'apps/frontend/admin/admin-app'
@@ -57,7 +57,7 @@ pipeline {
 
         // stage('Docker Run') {
         //     steps {
-        //             sh 'cd ${workpath} && docker run --name ${appName} -d -p 8082:3000 ${appName}'
+        //             sh 'cd ${workpath} && docker run --name ${appName} -d -p 7001:3000 ${appName}'
         //     }
         // }
 
