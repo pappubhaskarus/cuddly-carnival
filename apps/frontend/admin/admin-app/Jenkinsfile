@@ -36,7 +36,7 @@ pipeline {
 
         stage('docker compose') {
             steps {
-                sh 'docker rmi ${appName}:${BUILD_NUMBER-1}'
+                sh 'docker rmi ${appName}:${BUILD_NUMBER-2}'
                 sh 'cd ${dockerComposePath} && docker compose up ${appName} -d --build --force-recreate'
             }
         }
