@@ -56,5 +56,49 @@ services:
       - "8001:3000"
     environment:
       - NODE_ENV=production
+      
+  common-service:
+    build:
+      context: ./../../apps/backend/consumer/common-service
+      dockerfile: Dockerfile
+    ports:
+      - "8002:3000"
+    environment:
+      - NODE_ENV=production
 
+  blog-service:
+    build:
+      context: ./../../apps/backend/consumer/blog-service
+      dockerfile: Dockerfile
+    ports:
+      - "8003:3000"
+    environment:
+      - NODE_ENV=production
+
+  edtech-service:
+    build:
+      context: ./../../apps/backend/consumer/edtech-service
+      dockerfile: Dockerfile
+    ports:
+      - "8004:3000"
+    environment:
+      - NODE_ENV=production
+
+  nocode-service:
+    build:
+      context: ./../../apps/backend/consumer/nocode-service
+      dockerfile: Dockerfile
+    ports:
+      - "8005:3000"
+    environment:
+      - NODE_ENV=production
+      
+  restaurant-service:
+    build:
+      context: ./../../apps/backend/consumer/restaurant-service
+      dockerfile: Dockerfile
+    ports:
+      - "8006:3000"
+    environment:
+      - NODE_ENV=production
 

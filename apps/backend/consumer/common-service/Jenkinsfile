@@ -1,0 +1,77 @@
+pipeline {
+    agent any
+
+    environment {
+        appUrl = 'http://46.28.44.125:8002'
+        httpStatus = ''
+        httpResponse = ''
+        workpath = 'apps/backend/consumer/blog-service'
+        dockerComposePath = 'assets/docker'
+        appName = "blog-service"
+    }
+    stages {
+        stage('Clone Repo') {
+            steps {
+                git branch: 'main', url: 'https://github.com/pappubhaskarus/cuddly-carnival.git'
+            }
+        }
+
+        stage('Install') {
+            steps {
+                sh 'cd ${workpath} && pnpm i'
+            }
+        }
+
+        stage('Lint') {
+            steps {
+                sh 'cd ${workpath} && pnpm run lint'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'cd ${workpath} && pnpm run build'
+            }
+        }
+
+        stage('docker compose') {
+            steps {
+                sh 'cd ${dockerComposePath} && docker compose up ${appName} -d --build --force-recreate'
+            }
+        }
+
+        stage('Check Service Health') {
+            steps {
+                sleep time: 5000, unit: 'MILLISECONDS'
+                script {
+                    httpStatus = sh(script: "curl --insecure -w '%{http_code}' $appUrl -o /dev/null", returnStdout: true)
+
+                    if (httpStatus != '200') {
+                        echo "Service error with status code = ${httpStatus} when calling ${appUrl}"
+                        error('notify error')
+                    } else {
+                        echo "Service OK with status: ${httpStatus}"
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+
+        success {
+            echo 'Build successful!'
+        }
+
+        unstable {
+            echo 'Build unstable.'
+        }
+
+        failure {
+            echo 'Build failed!'
+        }
+    }
+}
