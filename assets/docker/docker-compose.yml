@@ -6,7 +6,6 @@ services:
     build:
       context: ./../../apps/frontend/admin/admin-app
       dockerfile: Dockerfile
-    image: admin-app:${BUILD_NUMBER}
     ports:
       - "7001:3000"
     environment:
