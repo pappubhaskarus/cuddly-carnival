@@ -9,13 +9,51 @@ services:
     environment:
       - NODE_ENV=production
 
+  blog-app:
+    build:
+      context: ./../../apps/frontend/consumer/blog-app
+      dockerfile: Dockerfile
+    ports:
+      - "7002:3000"
+    environment:
+      - NODE_ENV=production
+
+
+  edtech-app:
+    build:
+      context: ./../../apps/frontend/consumer/edtech-app
+      dockerfile: Dockerfile
+    ports:
+      - "7003:3000"
+    environment:
+      - NODE_ENV=production
+
+
+  nocode-app:
+    build:
+      context: ./../../apps/frontend/consumer/nocode-app
+      dockerfile: Dockerfile
+    ports:
+      - "7004:3000"
+    environment:
+      - NODE_ENV=production
+
+  restaurant-app:
+    build:
+      context: ./../../apps/frontend/consumer/restaurant-app
+      dockerfile: Dockerfile
+    ports:
+      - "7005:3000"
+    environment:
+      - NODE_ENV=production
+
   
   admin-service:
     build:
       context: ./../../apps/backend/admin/admin-service
       dockerfile: Dockerfile
     ports:
-      - "7002:3000"
+      - "8001:3000"
     environment:
       - NODE_ENV=production
 

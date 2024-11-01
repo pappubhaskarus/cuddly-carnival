@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     environment {
-        appUrl = 'http://46.28.44.125:8001'
+        appUrl = 'http://46.28.44.125:7003'
         httpStatus = ''
         httpResponse = ''
-        workpath = 'apps/backend/admin/admin-service'
+        workpath = 'apps/frontend/consumer/edtech-app'
         dockerComposePath = 'assets/docker'
-        appName = "admin-service"
+        appName = "edtech-app"
     }
     stages {
         stage('Clone Repo') {
