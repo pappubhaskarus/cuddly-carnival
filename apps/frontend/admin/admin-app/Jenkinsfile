@@ -34,26 +34,6 @@ pipeline {
             }
         }
 
-        stage('Remove Old Image if Exists') {
-            steps {
-                script {
-                    // Command to check for the image locally
-                    def localImageExists = sh(
-                        script: "docker images -q ${appName}:${BUILD_NUMBER-2}",
-                        returnStatus: true
-                    ) == 0
-
-                    if (localImageExists) {
-                        echo "Image ${appName}:${BUILD_NUMBER-2} exists. Removing..."
-                        echo "docker rmi ${appName}:${BUILD_NUMBER-2}"
-                    } else {
-                        echo "Image ${appName}:${BUILD_NUMBER-2} does not exists. Skipping..."
-                    }
-                }
-            }
-        }
-        
-
         stage('docker compose') {
             steps {
                 sh 'cd ${dockerComposePath} && docker compose up ${appName} -d --build --force-recreate'
@@ -73,6 +53,12 @@ pipeline {
                         echo "Service OK with status: ${httpStatus}"
                     }
                 }
+            }
+        }
+
+        stage('Remove All Unused docker Resources ') {
+            steps {
+                sh 'docker system prune -a -f --volumes'
             }
         }
     }
