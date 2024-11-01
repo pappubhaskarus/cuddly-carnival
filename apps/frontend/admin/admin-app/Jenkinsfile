@@ -21,7 +21,7 @@ pipeline {
         // }
         stage('Install') {
             steps {
-                sh 'cd ${workpath} && pnpm ci'
+                sh 'cd ${workpath} && pnpm i'
             }
         }
 
