@@ -40,27 +40,6 @@ pipeline {
             }
         }
 
-        
-
-        // stage('Docker Stop & Remove') {
-        //     steps {
-        //             sh 'docker stop ${appName} || true'
-        //             sh 'docker rm ${appName} || true'
-        //     }
-        // }
-
-        // stage('Docker Build') {
-        //     steps {
-        //             sh 'cd ${workpath} && docker build -t ${appName}:latest .'
-        //     }
-        // }
-
-        // stage('Docker Run') {
-        //     steps {
-        //             sh 'cd ${workpath} && docker run --name ${appName} -d -p 7001:3000 ${appName}'
-        //     }
-        // }
-
         stage('Check Service Health') {
             steps {
                 sleep time: 5000, unit: 'MILLISECONDS'
@@ -80,26 +59,18 @@ pipeline {
 
     post {
         always {
-            // Clean up workspace
-
             cleanWs()
         }
 
         success {
-            // Notify on success
-
             echo 'Build successful!'
         }
 
         unstable {
-            // Notify on unstable build
-
             echo 'Build unstable.'
         }
 
         failure {
-            // Notify on failure
-
             echo 'Build failed!'
         }
     }
