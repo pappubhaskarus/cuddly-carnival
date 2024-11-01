@@ -6,6 +6,7 @@ pipeline {
         httpStatus = ''
         httpResponse = ''
         workpath = 'apps/frontend/admin/admin-app'
+        dockerComposePath = 'assets/docker'
         appName = "admin-app"
     }
     stages {
@@ -14,47 +15,49 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/pappubhaskarus/cuddly-carnival.git'
             }
         }
-        // stage('pnpm Install') {
-        //     steps {
-        //         sh 'npm install -g pnpm'
-        //     }
-        // }
-        stage('Install') {
+
+        stage('Install >> lint >> build') {
             steps {
                 sh 'cd ${workpath} && pnpm i'
             }
-        }
-
-        stage('Lint') {
             steps {
                 sh 'cd ${workpath} && pnpm run lint'
             }
-        }
-
-        stage('Build') {
             steps {
                 sh 'cd ${workpath} && pnpm run build'
             }
         }
 
-        stage('Docker Stop & Remove') {
+        stage('docker compose') {
             steps {
-                    sh 'docker stop ${appName} || true'
-                    sh 'docker rm ${appName} || true'
+                sh 'cd ${dockerComposePath} && docker compose up ${appName} -d --build --force-recreate'
             }
         }
 
-        stage('Docker Build') {
-            steps {
-                    sh 'cd ${workpath} && docker build -t ${appName}:latest .'
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         sh 'cd ${workpath} && pnpm run build'
+        //     }
+        // }
 
-        stage('Docker Run') {
-            steps {
-                    sh 'cd ${workpath} && docker run --name ${appName} -d -p 8082:3000 ${appName}'
-            }
-        }
+        // stage('Docker Stop & Remove') {
+        //     steps {
+        //             sh 'docker stop ${appName} || true'
+        //             sh 'docker rm ${appName} || true'
+        //     }
+        // }
+
+        // stage('Docker Build') {
+        //     steps {
+        //             sh 'cd ${workpath} && docker build -t ${appName}:latest .'
+        //     }
+        // }
+
+        // stage('Docker Run') {
+        //     steps {
+        //             sh 'cd ${workpath} && docker run --name ${appName} -d -p 8082:3000 ${appName}'
+        //     }
+        // }
 
         stage('Check Service Health') {
             steps {
