@@ -5,9 +5,9 @@ pipeline {
         appUrl = 'http://46.28.44.125:8002'
         httpStatus = ''
         httpResponse = ''
-        workpath = 'apps/backend/consumer/blog-service'
+        workpath = 'apps/backend/consumer/common-service'
         dockerComposePath = 'assets/docker'
-        appName = "blog-service"
+        appName = "common-service"
     }
     stages {
         stage('Clone Repo') {
