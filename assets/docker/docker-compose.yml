@@ -1,0 +1,22 @@
+
+services:
+  admin-app:
+    build:
+      context: ./../../apps/frontend/admin/admin-app
+      dockerfile: Dockerfile
+    ports:
+      - "7001:3000"
+    environment:
+      - NODE_ENV=production
+
+  
+  admin-service:
+    build:
+      context: ./../../apps/backend/admin/admin-service
+      dockerfile: Dockerfile
+    ports:
+      - "7002:3000"
+    environment:
+      - NODE_ENV=production
+
+
