@@ -14,7 +14,11 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/pappubhaskarus/cuddly-carnival.git'
             }
         }
-
+        stage('pnpm Install') {
+            steps {
+                sh 'npm install -g pnpm'
+            }
+        }
         stage('Install') {
             steps {
                 sh 'cd ${workpath} && pnpm ci'
