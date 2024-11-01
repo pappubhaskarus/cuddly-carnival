@@ -5,6 +5,8 @@ pipeline {
         appUrl = 'http://46.28.44.125:8082/api/health'
         httpStatus = ''
         httpResponse = ''
+        workpath = 'apps/frontend/admin/admin-app'
+        appName = "admin-app"
     }
     stages {
         stage('Clone Repo') {
@@ -15,38 +17,38 @@ pipeline {
 
         stage('Install') {
             steps {
-                sh 'npm ci'
+                sh 'cd ${workpath} && pnpm ci'
             }
         }
 
         stage('Lint') {
             steps {
-                sh 'npm run lint'
+                sh 'pnpm run lint'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'npm run build'
+                sh 'pnpm run build'
             }
         }
 
         stage('Docker Stop & Remove') {
             steps {
-                    sh 'docker stop hb-frontend || true'
-                    sh 'docker rm hb-frontend || true'
+                    sh 'docker stop ${appName} || true'
+                    sh 'docker rm ${appName} || true'
             }
         }
 
         stage('Docker Build') {
             steps {
-                    sh 'docker build -t hb-frontend:latest .'
+                    sh 'docker build -t ${appName}:latest .'
             }
         }
 
         stage('Docker Run') {
             steps {
-                    sh 'docker run --name hb-frontend -d -p 8082:3000 hb-frontend'
+                    sh 'docker run --name ${appName} -d -p 8082:3000 ${appName}'
             }
         }
 
