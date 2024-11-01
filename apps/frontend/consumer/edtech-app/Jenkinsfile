@@ -55,6 +55,12 @@ pipeline {
                 }
             }
         }
+
+        stage('Remove All Unused docker Resources ') {
+            steps {
+                sh 'docker system prune -a -f --volumes'
+            }
+        }
     }
 
     post {
