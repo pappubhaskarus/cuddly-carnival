@@ -16,13 +16,19 @@ pipeline {
             }
         }
 
-        stage('Install >> lint >> build') {
+        stage('Install') {
             steps {
                 sh 'cd ${workpath} && pnpm i'
             }
+        }
+
+        stage('Lint') {
             steps {
                 sh 'cd ${workpath} && pnpm run lint'
             }
+        }
+
+        stage('Build') {
             steps {
                 sh 'cd ${workpath} && pnpm run build'
             }
@@ -34,11 +40,7 @@ pipeline {
             }
         }
 
-        // stage('Build') {
-        //     steps {
-        //         sh 'cd ${workpath} && pnpm run build'
-        //     }
-        // }
+        
 
         // stage('Docker Stop & Remove') {
         //     steps {
