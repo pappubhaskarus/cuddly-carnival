@@ -1,5 +1,7 @@
 
 services:
+
+# frontend apps
   admin-app:
     build:
       context: ./../../apps/frontend/admin/admin-app
@@ -47,6 +49,7 @@ services:
     environment:
       - NODE_ENV=production
 
+# backend apps
   
   admin-service:
     build:
